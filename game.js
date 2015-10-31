@@ -10,7 +10,7 @@ var obstacleGroup;
 var obstacleSpeed = 120;
 var obstacleDelay = 1500;
 
-window.onload = function() {	
+window.onload = function() {
 	game = new Phaser.Game(320, 480, Phaser.AUTO, "");
      game.state.add("PlayGame",playGame);
      game.state.start("PlayGame");
@@ -22,7 +22,7 @@ playGame.prototype = {
 	preload: function(){
           game.load.image("road", "road.png");
           game.load.image("car", "car.png");
-          game.load.image("obstacle", "obstacle.png");
+          game.load.image("obstacle", "car.png");
 	},
   	create: function(){
           game.add.image(0, 0, "road");
@@ -33,13 +33,13 @@ playGame.prototype = {
                cars[i] = game.add.sprite(0, game.height - 40, "car");
                cars[i].positions = [game.width * (i * 4 + 1) / 8, game.width * (i * 4 + 3) / 8];
                cars[i].anchor.set(0.5);
-               cars[i].tint = carColors[i];  
+               cars[i].tint = carColors[i];
                cars[i].canMove = true;
                cars[i].side = i;
                cars[i].x = cars[i].positions[cars[i].side];
-               game.physics.enable(cars[i], Phaser.Physics.ARCADE); 
+               game.physics.enable(cars[i], Phaser.Physics.ARCADE);
                cars[i].body.allowRotation = false;
-               cars[i].body.moves = false;  
+               cars[i].body.moves = false;
                carGroup.add(cars[i]);
           }
           game.input.onDown.add(moveCar);
@@ -47,11 +47,11 @@ playGame.prototype = {
                var obstacle = new Obstacle(game);
                game.add.existing(obstacle);
                obstacleGroup.add(obstacle);
-          });          
+          });
 	},
      update: function(){
           game.physics.arcade.collide(carGroup, obstacleGroup, function(){
-               game.state.start("PlayGame");     
+               game.state.start("PlayGame");
           });
      }
 }
@@ -61,7 +61,7 @@ function moveCar(e){
      if(cars[carToMove].canMove){
           cars[carToMove].canMove = false;
           cars[carToMove].side = 1 - cars[carToMove].side;
-          var moveTween = game.add.tween(cars[carToMove]).to({ 
+          var moveTween = game.add.tween(cars[carToMove]).to({
                x: cars[carToMove].positions[cars[carToMove].side],
           }, carTurnSpeed, Phaser.Easing.Linear.None, true);
           moveTween.onComplete.add(function(){
