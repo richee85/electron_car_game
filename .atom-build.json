@@ -1,0 +1,4 @@
+{
+  "cmd": "npm install && npm start",
+  "name": "test" 
+}
